@@ -19,7 +19,7 @@ You'll need Python 3.9+ to run this. I highly recommend setting up a virtual env
 I had to make a few specific architectural trade-offs to get this working under the constraints within 24 hours.
 
 ### 1. The Intent Classifier (<50MB, <200ms limit)
-Using any sort of LLM for this—even a heavily quantized one—was a trap. It would easily blow past the 200ms CPU latency limit and the 50MB size limit. 
+Using any sort of LLM for this even a heavily quantized one—was a trap. It would easily blow past the 200ms CPU latency limit and the 50MB size limit. 
 * **My solution:** I built a classic NLP pipeline using `TF-IDF + Logistic Regression` via scikit-learn. 
 * **Why:** It compiles down to a ~2MB pickle file, runs inference in under 10ms, and is highly accurate for distinct, known categories like the ones requested.
 
