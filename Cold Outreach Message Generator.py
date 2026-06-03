@@ -9,7 +9,7 @@ load_dotenv()
 
 def generate_outreach_content(business_desc: str, outreach_type: str) -> str:
     api_key = os.getenv("GOOGLE_API_KEY")
-        llm = ChatGoogleGenerativeAI(
+    llm = ChatGoogleGenerativeAI(
             model="gemini-2.5-flash",
             temperature=0.8,
             api_key=api_key
