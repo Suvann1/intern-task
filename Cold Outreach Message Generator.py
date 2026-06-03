@@ -9,17 +9,11 @@ load_dotenv()
 
 def generate_outreach_content(business_desc: str, outreach_type: str) -> str:
     api_key = os.getenv("GOOGLE_API_KEY")
-    if not api_key:
-        return "ERROR_MISSING_KEY"
-
-    try:
         llm = ChatGoogleGenerativeAI(
             model="gemini-2.5-flash",
             temperature=0.8,
             api_key=api_key
         )
-    except Exception as e:
-        return f"Initialization Error: {str(e)}"
 
     templates = {
         "WhatsApp Message": """
@@ -48,10 +42,9 @@ def generate_outreach_content(business_desc: str, outreach_type: str) -> str:
 
     chain = prompt | llm | StrOutputParser()
 
-    try:
-        return chain.invoke({"business_description": business_desc})
-    except Exception as e:
-        return f"Generation Error: {str(e)}"
+
+    return chain.invoke({"business_description": business_desc})
+   
 
 def main():
     st.set_page_config(
@@ -63,10 +56,6 @@ def main():
     st.title("🚀 Custom Outreach Engine")
     st.markdown("Transform business profiles into raw, human-sounding outreach assets.")
     st.write("---")
-
-    if os.getenv("GOOGLE_API_KEY") is None:
-        st.error("🚨 **System Variable Missing:** `GOOGLE_API_KEY` was not detected in your current environment.")
-        st.stop()
 
     business_description = st.text_area(
         "📝 Business Profile & Description", 
